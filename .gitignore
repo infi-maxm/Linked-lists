@@ -1,0 +1,15 @@
+# Compiled binaries
+*.out
+*.o
+*.a
+*.so
+
+# Executables
+*.exe
+*.app
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
