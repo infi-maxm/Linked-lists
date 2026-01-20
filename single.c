@@ -43,6 +43,17 @@ struct Node*insertatpos(struct Node*head,int pos,int data){
     return head;
 }
 
+struct Node*insertatEnd(struct Node*head,int data){
+  struct Node*ptr=head;
+  struct Node*temp;
+  while(ptr!=NULL){
+    temp=ptr;
+    ptr=ptr->next;
+  }
+  temp->next=create(data);
+  return head;
+}
+
 struct Node*deleteatBeg(struct Node*head){
     if(head == NULL) return NULL;
     struct Node*ptr=head;
@@ -78,65 +89,88 @@ struct Node*reverse(struct Node*head){
 }
 
 int main(){
-struct Node*head =NULL;
-struct Node*temp =NULL;
-int n;
-printf("Enter the number of nodes you want:");
-scanf("%d",&n);
-for(int i=1;i<=n;i++){
-    // struct Node*newnode =(struct Node*)malloc(sizeof(struct Node));
-    int data;
-    printf("Enter data to be entered in node:");
-    scanf("%d",&data);
-    struct Node* newnode = create(data);
-    newnode->next=NULL;
-    if(head==NULL){
-        head=newnode;
-        temp=head;
-    }else{
-        temp->next=newnode;
-        temp=temp->next;
-    }
-}
+        struct Node*head =NULL;
+        struct Node*temp =NULL;
+        int n;
+        printf("Enter the number of nodes you want:");
+        scanf("%d",&n);
+        for(int i=1;i<=n;i++){
+            // struct Node*newnode =(struct Node*)malloc(sizeof(struct Node));
+            int data;
+            printf("Enter data to be entered in node:");
+            scanf("%d",&data);
+            struct Node* newnode = create(data);
+            newnode->next=NULL;
+            if(head==NULL){
+                head=newnode;
+                temp=head;
+            }else{
+                temp->next=newnode;
+                temp=temp->next;
+            }
+        }
 
-printf("\nCreated linked list:\n");
-traverse(head);
-int pos;
-printf("\nIf u want to insert data at any position upto n=%d tell position: ",n);
-scanf("%d",&pos);
-int dat;
-    printf("\nEnter data to be entered in node:");
-    scanf("%d",&dat);
-if(pos==1){
-    head=insertatBeg(head,dat);
-    n++;
-}else if(pos!=1 && pos<=n){
-     head=insertatpos(head,pos,dat);
-    n++;
-}
-printf("\nCreated linked list:\n");
-traverse(head);
-printf("\nIf u want to delete node at any position upto n=%d tell position: ",n);
-scanf("%d",&pos);
-if(pos==1){
-    head=deleteatBeg(head);  
-}else if(pos!=1 && pos<=n){
-    head=deleteatpos(head,pos);
-}
-printf("\nCreated linked list:\n");
-traverse(head);
+        printf("\nCreated linked list:\n");
+        traverse(head);
+        int pos;
+        printf("\nIf u want to insert data at any position upto n=%d tell position: ",n);
+        scanf("%d",&pos);
+        int dat;
+            printf("\nEnter data to be entered in node:");
+            scanf("%d",&dat);
+        if(pos==1){
+            head=insertatBeg(head,dat);
+            n++;
+        }else if(pos!=1 && pos<=n && pos>0){
+            head=insertatpos(head,pos,dat);
+            n++;
+        }else if(pos == (n+1)){
+            head=insertatEnd(head,dat);
+            n++;
+        }
+        printf("\nCreated linked list:\n");
+        traverse(head);
+        printf("\nIf u want to delete node at any position upto n=%d tell position: ",n);
+        scanf("%d",&pos);
+        if(pos==1){
+            head=deleteatBeg(head);  
+        }else if(pos!=1 && pos<=n){
+            head=deleteatpos(head,pos);
+        }
+        printf("\nCreated linked list:\n");
+        traverse(head);
 
-printf("\nReversed linked list:\n");
-head=reverse(head);
-traverse(head);
-printf("\n");
+        printf("\nReversedlinked list:\n");
+        head=reverse(head);
+        traverse(head);
+        
+        printf("\nDeleting from list with key (data) given:\n");
 
-struct Node*ptr=head;
-while(ptr!=NULL){
-    struct Node*next = ptr->next;
-    free(ptr);
-    ptr=next;
-}
+        int key;
+        printf("\nEnter the key:");
+        scanf("%d",&key);
+        struct Node*p =head;
+        struct Node*t=NULL;
+        while(p!=NULL&&(p->data)!=key){   
+            t=p;
+            p=p->next;
+        }
+        if(p->data == key && t!=NULL)
+            { t->next=p->next;}
+        else if(t==NULL){
+              head=p->next;
+        }else if(p->data !=key){
+              printf("Key not found!");
+        }
+        printf("\nList after deleteing key:\n");
+        traverse(head);
 
-return 0;
+        struct Node*ptr=head;
+        while(ptr!=NULL){
+            struct Node*next = ptr->next;
+            free(ptr);
+            ptr=next;
+        }
+
+        return 0;
 }
