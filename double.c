@@ -43,12 +43,11 @@ node*insert_begin(node*head){
     printf("Enter data to be entered in node:");
     scanf("%d",&data);
     newnode->data=data;
-    node*ptr=newnode;
     newnode->prev=NULL;
     newnode->next=head;
+    if(head!=NULL){
+    head->prev=newnode;}
     head=newnode;
-    ptr=ptr->next;
-    ptr->prev=newnode;
 
     return head;
 }
@@ -59,7 +58,38 @@ node*insert_pos(node*head,int pos){
     printf("Enter data to be entered in node:");
     scanf("%d",&data);
     newnode->data=data;
-    
+    int p=1;
+    node*ptr=head;
+    while(p<(pos-1) && ptr!=NULL){
+        ptr=ptr->next;
+        p++;
+    }
+    node*temp=ptr->next;
+    newnode->prev=ptr;
+    newnode->next=ptr->next;
+    ptr->next=newnode;
+    temp->prev=newnode;
+
+    return head;
+}
+
+node*insert_end(node*head){
+    int data;
+    node*newnode=(node*)malloc(sizeof(node));
+    printf("Enter data to be entered in node:");
+    scanf("%d",&data);
+    newnode->data=data;
+    newnode->next=NULL;
+    node*ptr=head;
+    node*temp;
+    while(ptr!=NULL){
+        temp=ptr;
+        ptr=ptr->next;
+    }
+    newnode->prev=temp;
+    temp->next=newnode;
+
+    return head;
 }
 
 int main(){
@@ -74,7 +104,7 @@ int main(){
 
     char c;
     int pos;
-    printf("Do you want to insert (Y/n):");
+    printf("\nDo you want to insert (Y/n):\n");
     scanf(" %c",&c);
     if(c=='Y'){
         
@@ -82,8 +112,10 @@ int main(){
         scanf("%d",&pos);
         if(pos==1){
             head=insert_begin(head);
-        }else if(pos!=1 &&pos<n){
-
+        }else if(pos!=1 &&pos<=n){
+            head=insert_pos(head,pos);
+        }else if(pos==(n+1)){
+            head=insert_end(head);
         }
         n++;
     }
