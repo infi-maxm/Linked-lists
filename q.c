@@ -40,6 +40,45 @@ node*concatenate(node*head1,node*head2){
     return headc;
 }
 
+node*merge(node*head1,node*head2){
+    if(head1==NULL){
+        return head2;
+    } 
+    if(head2==NULL){
+        return head1;
+    }
+    node*ptr=NULL;
+    node*head=NULL;
+    if(head1->data<=head2->data){
+        ptr=head1;
+        head1=head1->next;
+    }else{
+        ptr=head2;
+        head2=head2->next;
+    }
+    head=ptr;
+    while(head1!=NULL && head2!=NULL){
+            if(head1->data<=head2->data){
+                ptr->next=head1;
+                ptr=head1;
+                head1=head1->next;
+            }else{
+                ptr->next=head2;
+                ptr=head2;
+                head2=head2->next;
+            }
+    }
+
+    if(head1==NULL){
+        ptr->next=head2;
+    }else{
+        ptr->next=head1;
+    }
+
+    return head;
+}
+
+
 node*reverse(node*head){
     node*prev=NULL;
     node*curr=head;
@@ -112,20 +151,28 @@ int main(){
     printf("List 2:");
     traverse(head2);
     printf("\n");
-    printf("\nList concatenated:");
-    node*headc=concatenate(head1,head2);
-    traverse(headc);
-    printf("\nMiddle element(s):");
-    middle(headc,n1,n2);
-    printf("\n");
-    node*headr=reverse(headc);
-    printf("\nReversed List:");
-    traverse(headr);
-    printf("\n");
+
+    printf("\nMerged List:");
+    node*headm=merge(head1,head2);
+    traverse(headm);
+
+    // printf("\nList concatenated:");
+    // node*headc=concatenate(head1,head2);
+    // traverse(headc);
+    // printf("\nMiddle element(s):");
+    // middle(headc,n1,n2);
+    // printf("\n");
+   
+    // node*headr=reverse(headc);
+    // printf("\nReversed List:");
+    // traverse(headr);
+    // printf("\n");
+    
 
     node*ptr1=head1;
     node*ptr2=head2;
-    node*ptr3=headc;
+    // node*ptr3=headc;
+    node*ptr4=headm;
     // while(ptr1!=NULL){
     //     node*next=ptr1->next;
     //     free(ptr1);
@@ -135,12 +182,17 @@ int main(){
     //     node*next=ptr2->next;
     //     free(ptr2);
     //     ptr2=next;
-    // }
-    while(ptr3!=NULL){
-        node*next=ptr3->next;
-        free(ptr3);
-        ptr3=next;
+    //}
+      while(ptr4!=NULL){
+        node*next=ptr4->next;
+        free(ptr4);
+        ptr4=next;
     }
+    // while(ptr3!=NULL){
+    //     node*next=ptr3->next;
+    //     free(ptr3);
+    //     ptr3=next;
+    // }
 
     return 0;
     
