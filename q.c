@@ -15,7 +15,7 @@ node*create_list(node*head,int n){
     node*newnode=(node*)malloc(sizeof(node));
     printf("Enter data to be entered in node:");
     scanf("%d",&(newnode->data));
-    newnode->next=NULL;
+    newnode->next=NULL; 
     if(head==NULL){
         head=newnode;
         temp=head;
